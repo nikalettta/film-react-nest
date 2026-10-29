@@ -2,28 +2,29 @@
 
 ## Установка
 
-### MongoDB
+### PostgreSQL
 
-Установите MongoDB скачав дистрибутив с официального сайта или с помощью пакетного менеджера вашей ОС. Также можно воспользоваться Docker (см. ветку `feat/docker`.
+Установите PostgreSQL (или запустите в Docker) и создайте пользователя и базу:
 
-Выполните скрипт `test/mongodb_initial_stub.js` в консоли `mongo`.
+    CREATE USER exampleuser WITH PASSWORD 'examplepass';
+    CREATE DATABASE exampledb OWNER exampleuser;
+
+Загрузите схему и тестовые данные из `backend/test`, по порядку:
+
+    psql -U exampleuser -d exampledb -h localhost -f backend/test/prac.init.sql
+    psql -U exampleuser -d exampledb -h localhost -f backend/test/prac.films.sql
+    psql -U exampleuser -d exampledb -h localhost -f backend/test/prac.shedules.sql
 
 ### Бэкенд
 
-Перейдите в папку с исходным кодом бэкенда
+Создайте файл `backend/.env` по образцу `backend/.env.example`:
 
-`cd backend`
+* `DATABASE_DRIVER` - тип драйвера СУБД, в нашем случае `postgres`
+* `DATABASE_URL` - строка подключения, например `postgres://127.0.0.1:5432/exampledb`
+* `DATABASE_USERNAME` - пользователь БД
+* `DATABASE_PASSWORD` - пароль пользователя БД
 
-Установите зависимости (точно такие же, как в package-lock.json) помощью команд
-
-`npm ci` или `yarn install --frozen-lockfile`
-
-Создайте `.env` файл из примера `.env.example`, в нём укажите:
-
-* `DATABASE_DRIVER` - тип драйвера СУБД - в нашем случае это `mongodb` 
-* `DATABASE_URL` - адрес СУБД MongoDB, например `mongodb://127.0.0.1:27017/practicum`.  
-
-MongoDB должна быть установлена и запущена.
+PostgreSQL должна быть установлена и запущена.
 
 Запустите бэкенд:
 

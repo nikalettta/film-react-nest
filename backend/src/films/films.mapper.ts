@@ -1,4 +1,5 @@
-import { Film, Schedule } from './schemas/film.schema';
+import { Film } from './entities/film.entity';
+import { Schedule } from './entities/schedule.entity';
 import { FilmDto, ScheduleDto } from './dto/films.dto';
 
 export const toScheduleDto = (s: Schedule): ScheduleDto => ({
