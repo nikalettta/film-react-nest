@@ -25,6 +25,25 @@ jobs:
       run: bash $DIR_TESTS/bin/backend.sh
   test_endpoints:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_DRIVER: postgres
+      DATABASE_URL: postgres://127.0.0.1:5432/exampledb
+      DATABASE_USERNAME: exampleuser
+      DATABASE_PASSWORD: examplepass
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: exampleuser
+          POSTGRES_PASSWORD: examplepass
+          POSTGRES_DB: exampledb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U exampleuser -d exampledb"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
     steps:
     - name: Set up GitHub Actions
       uses: actions/checkout@v4
@@ -34,7 +53,15 @@ jobs:
         node-version: 18.x
     - name: Get testing lib
       run: set -eu && git clone --depth 1 $REP_TESTS $DIR_TESTS
+    - name: Load test data
+      run: |
+        sudo apt-get update && sudo apt-get install -y postgresql-client
+        export PGPASSWORD=examplepass
+        psql -h 127.0.0.1 -U exampleuser -d exampledb -f backend/test/prac.init.sql
+        psql -h 127.0.0.1 -U exampleuser -d exampledb -f backend/test/prac.films.sql
+        psql -h 127.0.0.1 -U exampleuser -d exampledb -f backend/test/prac.shedules.sql
     - name: Start project
       run: bash $DIR_TESTS/bin/start_project.sh
     - name: Run tests
       run: bash $DIR_TESTS/bin/endpoints.sh
+      
