@@ -27,7 +27,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_DRIVER: postgres
-      DATABASE_URL: postgres://127.0.0.1:5432/exampledb
+      DATABASE_HOST: 127.0.0.1
+      DATABASE_PORT: 5432
+      DATABASE_NAME: exampledb
       DATABASE_USERNAME: exampleuser
       DATABASE_PASSWORD: examplepass
     services:

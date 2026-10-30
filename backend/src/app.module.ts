@@ -33,7 +33,19 @@ import { Schedule } from './films/entities/schedule.entity';
         };
       },
     }),
-    TypeOrmModule.forFeature([Film, Schedule]),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        type: config.getOrThrow<'postgres'>('DATABASE_DRIVER'),
+        host: config.getOrThrow<string>('DATABASE_HOST'),
+        port: Number(config.getOrThrow<string>('DATABASE_PORT')),
+        database: config.getOrThrow<string>('DATABASE_NAME'),
+        username: config.getOrThrow<string>('DATABASE_USERNAME'),
+        password: config.getOrThrow<string>('DATABASE_PASSWORD'),
+        entities: [Film, Schedule],
+        synchronize: false,
+      }),
+    }),
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'public', 'content', 'afisha'),
       serveRoot: '/content/afisha',
