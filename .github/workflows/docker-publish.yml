@@ -2,7 +2,7 @@ name: Build and publish Docker images
 
 on:
   push:
-    branches: [main]
+    branches: [review]
   workflow_dispatch:
 
 env:
@@ -50,3 +50,4 @@ jobs:
           context: ./nginx
           push: true
           tags: ${{ env.IMAGE_PREFIX }}-nginx:latest
+          
