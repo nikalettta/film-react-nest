@@ -32,6 +32,24 @@ PostgreSQL должна быть установлена и запущена.
 
 Для проверки отправьте тестовый запрос с помощью Postman или `curl`.
 
+## Деплой
+
+- Сайт: http://81.26.180.97
+- API: http://81.26.180.97/api/afisha/films
+- Образы в GitHub Container Registry:
+  - ghcr.io/nikalettta/film-react-nest-backend
+  - ghcr.io/nikalettta/film-react-nest-frontend
+  - ghcr.io/nikalettta/film-react-nest-nginx
+
+## Логгеры
+
+Выбор логгера задаётся переменной окружения `LOGGER`: `dev` (по умолчанию), `json` или `tskv`.
+
+## Запуск через Docker
+
+1. Скопировать `.env.example` в `.env` и заполнить значения.
+2. Выполнить `docker compose up -d --build`.
+3. Проект доступен на порту 80, pgAdmin на порту 8080.
 
 
 
