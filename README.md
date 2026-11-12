@@ -20,7 +20,9 @@
 Создайте файл `backend/.env` по образцу `backend/.env.example`:
 
 * `DATABASE_DRIVER` - тип драйвера СУБД, в нашем случае `postgres`
-* `DATABASE_URL` - строка подключения, например `postgres://127.0.0.1:5432/exampledb`
+* `DATABASE_HOST` - адрес сервера БД, например `127.0.0.1`
+* `DATABASE_PORT` - порт БД, например `5432`
+* `DATABASE_NAME` - имя базы данных, например `exampledb`
 * `DATABASE_USERNAME` - пользователь БД
 * `DATABASE_PASSWORD` - пароль пользователя БД
 
